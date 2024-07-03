@@ -11,26 +11,6 @@ let isDrawing = false;
 let lastX = 0;
 let lastY = 0;
 
-// Adjust canvas size for different screen sizes
-function resizeCanvas() {
-    canvas.width = canvas.offsetWidth;
-    canvas.height = canvas.offsetHeight;
-    ctx.lineWidth = fontPicker.value;
-    // If there's saved content, retrieve it after resizing
-    let savedCanvas = localStorage.getItem('canvasContents');
-    if (savedCanvas) {
-        let img = new Image();
-        img.src = savedCanvas;
-        img.onload = () => {
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        }
-    }
-}
-
-// Call resizeCanvas on load and window resize
-window.onload = resizeCanvas;
-window.onresize = resizeCanvas;
-
 colorPicker.addEventListener('change', (e) => {
     ctx.strokeStyle = e.target.value;
     ctx.fillStyle = e.target.value;
@@ -57,6 +37,57 @@ canvas.addEventListener('mouseup', () => {
     isDrawing = false;
 });
 
+canvasColor.addEventListener('change', (e) => {
+    ctx.fillStyle = e.target.value;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+});
+
+fontPicker.addEventListener('change', (e) => {
+    ctx.lineWidth = e.target.value;
+});
+
+clearButton.addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+saveButton.addEventListener('click', () => {
+    ensureBackground();
+    const dataUrl = canvas.toDataURL("image/png");
+    localStorage.setItem('canvasContents', dataUrl);
+    let link = document.createElement('a');
+    link.download = 'my-canvas.png';
+    link.href = dataUrl;
+    link.click();
+});
+
+retrieveButton.addEventListener('click', () => {
+    let savedCanvas = localStorage.getItem('canvasContents');
+    if (savedCanvas) {
+        let img = new Image();
+        img.src = savedCanvas;
+        img.onload = () => {
+            ctx.drawImage(img, 0, 0);
+        }
+    }
+});
+
+function ensureBackground() {
+    const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+    const pixels = imgData.data;
+    let isEmpty = true;
+    for (let i = 0; i < pixels.length; i += 4) {
+        if (pixels[i + 3] !== 0) {
+            isEmpty = false;
+            break;
+        }
+    }
+    if (isEmpty) {
+        ctx.fillStyle = canvasColor.value || '#FFFFFF';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+}
+
+// Conditionally add touch event listeners for small screens
 if (window.matchMedia("(max-width: 768px)").matches) {
     canvas.addEventListener('touchstart', (e) => {
         isDrawing = true;
@@ -84,35 +115,3 @@ if (window.matchMedia("(max-width: 768px)").matches) {
         isDrawing = false;
     }, false);
 }
-
-canvasColor.addEventListener('change', (e) => {
-    ctx.fillStyle = e.target.value;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-});
-
-fontPicker.addEventListener('change', (e) => {
-    ctx.lineWidth = e.target.value;
-});
-
-clearButton.addEventListener('click', () => {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-});
-
-saveButton.addEventListener('click', () => {
-    localStorage.setItem('canvasContents', canvas.toDataURL());
-    let link = document.createElement('a');
-    link.download = 'my-canvas.png';
-    link.href = canvas.toDataURL();
-    link.click();
-});
-
-retrieveButton.addEventListener('click', () => {
-    let savedCanvas = localStorage.getItem('canvasContents');
-    if (savedCanvas) {
-        let img = new Image();
-        img.src = savedCanvas;
-        img.onload = () => {
-            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        }
-    }
-});
