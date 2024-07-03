@@ -1,50 +1,64 @@
-*{
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-.container{
-    max-width: 50%;
+
+.container {
+    max-width: 100%;
     margin: auto;
+    padding: 1rem;
     margin-top: 4rem;
 }
-.canvas{
+
+.canvas {
     border: 2px solid black;
+    width: 100%;
+    height: auto;
 }
-.pickers, .buttons{
+
+.pickers, .buttons {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 1rem;
     margin-bottom: 15px;
     margin-top: 15px;
 }
-.text-color-picker, .background-color-picker, .font-picker{
+
+.text-color-picker, .background-color-picker, .font-picker {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 }
-.form-control{
-    width: 250px;
+
+.form-control, #font-size {
+    width: 100%;
     padding: 2px;
 }
-#font-size{
-    width: 250px;
-    padding: 3px;
-}
-.btn{
+
+.btn {
     padding: 7px;
-    width: 250px;
+    width: 100%;
     border: none;
 }
-.btn-danger{
+
+.btn-danger {
     background-color: red;
     color: white;
 }
-.btn-success{
+
+.btn-success {
     background-color: green;
     color: white;
 }
-.btn-warning{
+
+.btn-warning {
     background-color: yellow;
     color: black;
+}
+
+@media (max-width: 768px) {
+    .pickers, .buttons {
+        grid-template-columns: 1fr;
+    }
 }
