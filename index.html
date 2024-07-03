@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick-sign</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="pickers">
+            <div class="text-color-picker">
+                <p>Text Color Picker</p>
+                <input class="form-control" id="colorPicker" type="color">
+            </div>
+            <div class="background-color-picker">
+                <p>Background</p>
+                <input class="form-control" id="canvasColor" type="color">
+            </div>
+            <div class="font-picker">
+                <p>Font Size</p>
+                <select id="font-size">
+                    <option value="5">5px</option>
+                    <option value="10">10px</option>
+                    <option value="15">15px</option>
+                    <option value="20">20px</option>
+                    <option value="30">30px</option>
+                    <option value="40">40px</option>
+                </select>
+            </div>
+        </div>
+        <canvas class="canvas" id="myCanvas" width="800" height="500"></canvas>
+        <div class="buttons">
+            <button class="btn btn-danger" id="clear">Clear</button>
+            <button class="btn btn-success" id="save-download">Save & Download</button>
+            <button class="btn btn-warning" id="retrieve">Retrieve saved signature</button>
+        </div>
+    </div>
+    <script src="./script.js"></script>
+</body>
+</html>

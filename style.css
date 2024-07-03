@@ -1,0 +1,50 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+.container{
+    max-width: 50%;
+    margin: auto;
+    margin-top: 4rem;
+}
+.canvas{
+    border: 2px solid black;
+}
+.pickers, .buttons{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+.text-color-picker, .background-color-picker, .font-picker{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.form-control{
+    width: 250px;
+    padding: 2px;
+}
+#font-size{
+    width: 250px;
+    padding: 3px;
+}
+.btn{
+    padding: 7px;
+    width: 250px;
+    border: none;
+}
+.btn-danger{
+    background-color: red;
+    color: white;
+}
+.btn-success{
+    background-color: green;
+    color: white;
+}
+.btn-warning{
+    background-color: yellow;
+    color: black;
+}
