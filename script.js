@@ -57,31 +57,33 @@ canvas.addEventListener('mouseup', () => {
     isDrawing = false;
 });
 
-canvas.addEventListener('touchstart', (e) => {
-    isDrawing = true;
-    const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    lastX = touch.clientX - rect.left;
-    lastY = touch.clientY - rect.top;
-}, false);
-
-canvas.addEventListener('touchmove', (e) => {
-    if (isDrawing) {
-        e.preventDefault();
+if (window.matchMedia("(max-width: 768px)").matches) {
+    canvas.addEventListener('touchstart', (e) => {
+        isDrawing = true;
         const touch = e.touches[0];
         const rect = canvas.getBoundingClientRect();
-        ctx.beginPath();
-        ctx.moveTo(lastX, lastY);
-        ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
-        ctx.stroke();
         lastX = touch.clientX - rect.left;
         lastY = touch.clientY - rect.top;
-    }
-}, false);
+    }, false);
 
-canvas.addEventListener('touchend', () => {
-    isDrawing = false;
-}, false);
+    canvas.addEventListener('touchmove', (e) => {
+        if (isDrawing) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(lastX, lastY);
+            ctx.lineTo(touch.clientX - rect.left, touch.clientY - rect.top);
+            ctx.stroke();
+            lastX = touch.clientX - rect.left;
+            lastY = touch.clientY - rect.top;
+        }
+    }, false);
+
+    canvas.addEventListener('touchend', () => {
+        isDrawing = false;
+    }, false);
+}
 
 canvasColor.addEventListener('change', (e) => {
     ctx.fillStyle = e.target.value;
